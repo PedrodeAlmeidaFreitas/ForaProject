@@ -2,7 +2,6 @@
 
 [![CI Status](https://github.com/PedrodeAlmeidaFreitas/ForaProject/workflows/CI%20-%20Build%20and%20Test/badge.svg)](https://github.com/PedrodeAlmeidaFreitas/ForaProject/actions)
 [![CD Status](https://github.com/PedrodeAlmeidaFreitas/ForaProject/workflows/CD%20-%20Docker%20Build%20and%20Deploy/badge.svg)](https://github.com/PedrodeAlmeidaFreitas/ForaProject/actions)
-[![codecov](https://codecov.io/gh/PedrodeAlmeidaFreitas/ForaProject/branch/main/graph/badge.svg)](https://codecov.io/gh/PedrodeAlmeidaFreitas/ForaProject)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A .NET 8 application built with Clean Architecture principles to calculate fundable amounts for companies based on SEC EDGAR financial data.
