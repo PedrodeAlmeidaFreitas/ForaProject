@@ -1,0 +1,58 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Domain", "src\ForaProject.Domain\ForaProject.Domain.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Application", "src\ForaProject.Application\ForaProject.Application.csproj", "{00000000-0000-0000-0000-000000000000}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Infrastructure", "src\ForaProject.Infrastructure\ForaProject.Infrastructure.csproj", "{00000000-0000-0000-0000-000000000000}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.API", "src\ForaProject.API\ForaProject.API.csproj", "{00000000-0000-0000-0000-000000000000}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{13188AE9-54EC-499D-BFF1-CF79B8107FE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForaProject.Domain.Tests", "tests\ForaProject.Domain.Tests\ForaProject.Domain.Tests.csproj", "{D49246DF-BC5C-440D-B23B-9252FA4C74CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForaProject.Application.Tests", "tests\ForaProject.Application.Tests\ForaProject.Application.Tests.csproj", "{0537AEAF-43B5-425B-833F-39C7ED30B349}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForaProject.API.Tests", "tests\ForaProject.API.Tests\ForaProject.API.Tests.csproj", "{EBFC76F3-0C52-434E-BE9F-23C605217712}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForaProject.IntegrationTests", "tests\ForaProject.IntegrationTests\ForaProject.IntegrationTests.csproj", "{F1E5D51C-62DE-4960-9B89-7E123690FE71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00000000-0000-0000-0000-000000000000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00000000-0000-0000-0000-000000000000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49246DF-BC5C-440D-B23B-9252FA4C74CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D49246DF-BC5C-440D-B23B-9252FA4C74CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49246DF-BC5C-440D-B23B-9252FA4C74CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D49246DF-BC5C-440D-B23B-9252FA4C74CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0537AEAF-43B5-425B-833F-39C7ED30B349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0537AEAF-43B5-425B-833F-39C7ED30B349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0537AEAF-43B5-425B-833F-39C7ED30B349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0537AEAF-43B5-425B-833F-39C7ED30B349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBFC76F3-0C52-434E-BE9F-23C605217712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBFC76F3-0C52-434E-BE9F-23C605217712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBFC76F3-0C52-434E-BE9F-23C605217712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBFC76F3-0C52-434E-BE9F-23C605217712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1E5D51C-62DE-4960-9B89-7E123690FE71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1E5D51C-62DE-4960-9B89-7E123690FE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1E5D51C-62DE-4960-9B89-7E123690FE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1E5D51C-62DE-4960-9B89-7E123690FE71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D49246DF-BC5C-440D-B23B-9252FA4C74CE} = {13188AE9-54EC-499D-BFF1-CF79B8107FE9}
+		{0537AEAF-43B5-425B-833F-39C7ED30B349} = {13188AE9-54EC-499D-BFF1-CF79B8107FE9}
+		{EBFC76F3-0C52-434E-BE9F-23C605217712} = {13188AE9-54EC-499D-BFF1-CF79B8107FE9}
+		{F1E5D51C-62DE-4960-9B89-7E123690FE71} = {13188AE9-54EC-499D-BFF1-CF79B8107FE9}
+	EndGlobalSection
+EndGlobal

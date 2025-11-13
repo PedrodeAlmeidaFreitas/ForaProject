@@ -1,0 +1,106 @@
+name: PR Quality Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-validation:
+    name: Validate Pull Request
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 Check PR title
+      uses: amannn/action-semantic-pull-request@v5
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        types: |
+          feat
+          fix
+          docs
+          style
+          refactor
+          perf
+          test
+          build
+          ci
+          chore
+          revert
+        requireScope: false
+
+    - name: 📏 Check PR size
+      run: |
+        FILES_CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)
+        LINES_CHANGED=$(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $4+$6}')
+        
+        echo "Files changed: $FILES_CHANGED"
+        echo "Lines changed: $LINES_CHANGED"
+        
+        if [ "$FILES_CHANGED" -gt 50 ]; then
+          echo "⚠️ Warning: This PR changes more than 50 files. Consider breaking it into smaller PRs."
+        fi
+        
+        if [ "$LINES_CHANGED" -gt 1000 ]; then
+          echo "⚠️ Warning: This PR changes more than 1000 lines. Consider breaking it into smaller PRs."
+        fi
+
+    - name: 🔍 Check for conflicts
+      run: |
+        git fetch origin ${{ github.base_ref }}
+        if git merge-base --is-ancestor HEAD origin/${{ github.base_ref }}; then
+          echo "✅ No conflicts detected"
+        else
+          echo "⚠️ This branch might have conflicts with base branch"
+        fi
+
+  conventional-commits:
+    name: Validate Commit Messages
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 Check commit messages
+      run: |
+        echo "Checking commit messages..."
+        COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%s")
+        
+        while IFS= read -r commit; do
+          if [[ ! "$commit" =~ ^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?: ]]; then
+            echo "❌ Invalid commit message: $commit"
+            echo "Commit messages should follow Conventional Commits format"
+            exit 1
+          fi
+        done <<< "$COMMITS"
+        
+        echo "✅ All commit messages are valid"
+
+  label-check:
+    name: Ensure PR has labels
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🏷️ Check labels
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: pullRequest } = await github.rest.pulls.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.issue.number
+          });
+          
+          if (pullRequest.labels.length === 0) {
+            core.setFailed('❌ Please add at least one label to this PR');
+          } else {
+            console.log('✅ PR has labels:', pullRequest.labels.map(l => l.name).join(', '));
+          }

@@ -1,0 +1,164 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: ForaProject@2024!
+          MSSQL_PID: Developer
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'ForaProject@2024!' -Q 'SELECT 1' -C || exit 1"
+          --health-interval 15s
+          --health-timeout 5s
+          --health-retries 10
+          --health-start-period 30s
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones disabled for better analysis
+
+    - name: 🔧 Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 📦 Restore dependencies
+      run: dotnet restore ForaProject.sln
+
+    - name: 🏗️ Build solution
+      run: dotnet build ForaProject.sln --configuration Release --no-restore
+
+    - name: 🧪 Run Domain Tests
+      run: dotnet test tests/ForaProject.Domain.Tests/ForaProject.Domain.Tests.csproj --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=domain-tests.trx"
+
+    - name: 🧪 Run Application Tests
+      run: dotnet test tests/ForaProject.Application.Tests/ForaProject.Application.Tests.csproj --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=application-tests.trx"
+
+    - name: 🧪 Run API Tests
+      run: dotnet test tests/ForaProject.API.Tests/ForaProject.API.Tests.csproj --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=api-tests.trx"
+
+    - name: 🧪 Run Integration Tests
+      env:
+        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=ForaProjectDb_Test;User Id=sa;Password=${{ secrets.SQL_SERVER_PASSWORD || 'ForaProject@2024!' }};TrustServerCertificate=True;"
+      run: dotnet test tests/ForaProject.IntegrationTests/ForaProject.IntegrationTests.csproj --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=integration-tests.trx"
+
+    - name: 📊 Generate Code Coverage
+      env:
+        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=ForaProjectDb_Test;User Id=sa;Password=${{ secrets.SQL_SERVER_PASSWORD || 'ForaProject@2024!' }};TrustServerCertificate=True;"
+      run: |
+        dotnet test ForaProject.sln \
+          --configuration Release \
+          --no-build \
+          --verbosity normal \
+          --collect:"XPlat Code Coverage" \
+          --results-directory ./TestResults \
+          --settings coverlet.runsettings
+
+    - name: 📈 Generate Coverage Report
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.3.11
+      with:
+        reports: '**/coverage.cobertura.xml'
+        targetdir: 'TestResults/CoverageReport'
+        reporttypes: 'HtmlInline;Cobertura;MarkdownSummaryGithub'
+        sourcedirs: 'src'
+
+    - name: 📝 Add Coverage PR Comment
+      if: github.event_name == 'pull_request'
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        recreate: true
+        path: TestResults/CoverageReport/SummaryGithub.md
+
+    - name: 📤 Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: '**/*.trx'
+        retention-days: 30
+
+    - name: 📤 Upload Coverage Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: TestResults/CoverageReport/
+        retention-days: 30
+
+    - name: ✅ Check Code Coverage Threshold
+      run: |
+        COVERAGE=$(grep -oP 'line-rate="\K[0-9.]+' TestResults/CoverageReport/Cobertura.xml | head -1)
+        COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc)
+        echo "Code Coverage: $COVERAGE_PERCENT%"
+        if (( $(echo "$COVERAGE < 0.80" | bc -l) )); then
+          echo "❌ Code coverage is below 80% threshold"
+          exit 1
+        fi
+        echo "✅ Code coverage meets 80% threshold"
+
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔧 Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 📦 Restore dependencies
+      run: dotnet restore ForaProject.sln
+
+    - name: 🔍 Run dotnet format check
+      run: dotnet format ForaProject.sln --verify-no-changes --verbosity diagnostic
+
+    - name: 🔍 Install .NET security scanner
+      run: dotnet tool install --global security-scan
+
+    - name: 🛡️ Run security scan
+      run: security-scan ForaProject.sln --excl-proj=**/*Tests.csproj || true
+
+  build-info:
+    name: Build Information
+    runs-on: ubuntu-latest
+    needs: [build-and-test, code-quality]
+    if: always()
+    
+    steps:
+    - name: 📋 Summary
+      run: |
+        echo "## 🎉 Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Actor:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Build Status:** ${{ needs.build-and-test.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Code Quality:** ${{ needs.code-quality.result }}" >> $GITHUB_STEP_SUMMARY

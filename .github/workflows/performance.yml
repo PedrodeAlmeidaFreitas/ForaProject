@@ -1,0 +1,82 @@
+name: Performance Benchmarks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    name: Run Performance Benchmarks
+    runs-on: ubuntu-latest
+    
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: ForaProject@2024!
+          MSSQL_PID: Developer
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'ForaProject@2024!' -Q 'SELECT 1' -C || exit 1"
+          --health-interval 15s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🔧 Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: 📦 Restore dependencies
+      run: dotnet restore ForaProject.sln
+
+    - name: 🏗️ Build in Release mode
+      run: dotnet build ForaProject.sln --configuration Release --no-restore
+
+    - name: 🚀 Start API
+      env:
+        ASPNETCORE_ENVIRONMENT: Development
+        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=ForaProjectDb;User Id=sa;Password=${{ secrets.SQL_SERVER_PASSWORD || 'ForaProject@2024!' }};TrustServerCertificate=True;"
+      run: |
+        cd src/ForaProject.API
+        dotnet run --configuration Release --no-build &
+        echo $! > api.pid
+        sleep 10
+
+    - name: ⏱️ Run API load test
+      run: |
+        # Wait for API to be ready
+        timeout 30 bash -c 'until curl -f http://localhost:5000/health 2>/dev/null; do sleep 1; done' || true
+        
+        # Simple load test using Apache Bench (if available) or curl
+        if command -v ab &> /dev/null; then
+          echo "Running Apache Bench load test..."
+          ab -n 1000 -c 10 http://localhost:5000/api/v1/companies/ || true
+        else
+          echo "Running basic curl test..."
+          for i in {1..100}; do
+            curl -s -o /dev/null -w "%{http_code} %{time_total}s\n" http://localhost:5000/api/v1/companies/
+          done
+        fi
+
+    - name: 🛑 Stop API
+      if: always()
+      run: |
+        if [ -f src/ForaProject.API/api.pid ]; then
+          kill $(cat src/ForaProject.API/api.pid) || true
+        fi
+
+    - name: 📊 Performance Summary
+      run: |
+        echo "## ⚡ Performance Test Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Performance tests completed. Review the logs for detailed metrics." >> $GITHUB_STEP_SUMMARY

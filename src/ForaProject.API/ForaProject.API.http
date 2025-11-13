@@ -1,0 +1,6 @@
+@ForaProject.API_HostAddress = http://localhost:5187
+
+GET {{ForaProject.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,45 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: foraproject-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+      - MSSQL_PID=${MSSQL_PID:-Developer}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - foraproject-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P '${SA_PASSWORD}' -Q 'SELECT 1' -C || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: foraproject-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS:-http://+:80}
+      - ConnectionStrings__DefaultConnection=Server=${DB_SERVER};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=True;
+    ports:
+      - "${API_PORT:-5000}:80"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - foraproject-network
+
+volumes:
+  sqlserver_data:
+    driver: local
+
+networks:
+  foraproject-network:
+    driver: bridge
