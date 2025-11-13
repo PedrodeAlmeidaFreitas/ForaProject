@@ -165,6 +165,12 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Add health check endpoint
+app.MapGet("/health", () => Results.Ok(new { status = "Healthy", timestamp = DateTime.UtcNow }))
+    .WithName("HealthCheck")
+    .WithTags("Health")
+    .Produces(200);
+
 app.MapControllers();
 
 app.Run();
