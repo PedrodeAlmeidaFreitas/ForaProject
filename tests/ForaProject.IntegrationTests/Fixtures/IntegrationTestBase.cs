@@ -27,11 +27,11 @@ public abstract class IntegrationTestBase : IClassFixture<CustomWebApplicationFa
     {
         using var scope = Factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        
+
         // Clear existing data
         db.Companies.RemoveRange(db.Companies);
         await db.SaveChangesAsync();
-        
+
         // Seed new data
         seedAction(db);
         await db.SaveChangesAsync();
@@ -74,14 +74,14 @@ public abstract class IntegrationTestBase : IClassFixture<CustomWebApplicationFa
     {
         using var scope = Factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        
+
         // Remove all income records first (due to foreign key)
         db.IncomeRecords.RemoveRange(db.IncomeRecords);
         // Then remove companies
         db.Companies.RemoveRange(db.Companies);
-        
+
         await db.SaveChangesAsync();
-        
+
         // Clear change tracker to avoid tracking issues
         db.ChangeTracker.Clear();
     }

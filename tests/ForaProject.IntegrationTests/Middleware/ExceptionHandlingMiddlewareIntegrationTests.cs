@@ -12,7 +12,7 @@ namespace ForaProject.IntegrationTests.Middleware;
 /// </summary>
 public class ExceptionHandlingMiddlewareIntegrationTests : IntegrationTestBase
 {
-    public ExceptionHandlingMiddlewareIntegrationTests(CustomWebApplicationFactory factory) 
+    public ExceptionHandlingMiddlewareIntegrationTests(CustomWebApplicationFactory factory)
         : base(factory)
     {
     }

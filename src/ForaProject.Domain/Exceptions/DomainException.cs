@@ -18,7 +18,7 @@ public abstract class DomainException : Exception
     /// </summary>
     /// <param name="message">The error message.</param>
     /// <param name="innerException">The inner exception.</param>
-    protected DomainException(string message, Exception innerException) 
+    protected DomainException(string message, Exception innerException)
         : base(message, innerException)
     {
     }

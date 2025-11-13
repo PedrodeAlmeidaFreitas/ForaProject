@@ -127,10 +127,10 @@ public class CompanyTests
     {
         // Arrange
         var company = CreateTestCompany();
-        AddAllYearsIncomeRecords(company, 
-            year2018: 1_000_000m, 
-            year2019: 1_100_000m, 
-            year2020: 1_200_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 1_000_000m,
+            year2019: 1_100_000m,
+            year2020: 1_200_000m,
             year2021: -500_000m,  // Negative!
             year2022: 1_300_000m);
 
@@ -147,11 +147,11 @@ public class CompanyTests
     {
         // Arrange
         var company = CreateTestCompany();
-        AddAllYearsIncomeRecords(company, 
-            year2018: 1_000_000m, 
-            year2019: 1_100_000m, 
-            year2020: 1_200_000m, 
-            year2021: 1_300_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 1_000_000m,
+            year2019: 1_100_000m,
+            year2020: 1_200_000m,
+            year2021: 1_300_000m,
             year2022: -500_000m);  // Negative!
 
         // Act
@@ -168,11 +168,11 @@ public class CompanyTests
         // Arrange
         var company = CreateTestCompany();
         var highestIncome = 5_000_000_000m; // $5B - less than $10B
-        AddAllYearsIncomeRecords(company, 
-            year2018: 3_000_000_000m, 
-            year2019: 3_500_000_000m, 
-            year2020: 4_000_000_000m, 
-            year2021: 4_500_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 3_000_000_000m,
+            year2019: 3_500_000_000m,
+            year2020: 4_000_000_000m,
+            year2021: 4_500_000_000m,
             year2022: highestIncome);
 
         // Act
@@ -190,11 +190,11 @@ public class CompanyTests
         // Arrange
         var company = CreateTestCompany();
         var highestIncome = 15_000_000_000m; // $15B - greater than $10B
-        AddAllYearsIncomeRecords(company, 
-            year2018: 10_000_000_000m, 
-            year2019: 11_000_000_000m, 
-            year2020: 12_000_000_000m, 
-            year2021: 13_000_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 10_000_000_000m,
+            year2019: 11_000_000_000m,
+            year2020: 12_000_000_000m,
+            year2021: 13_000_000_000m,
             year2022: highestIncome);
 
         // Act
@@ -218,11 +218,11 @@ public class CompanyTests
         var cik = CentralIndexKey.Create(1234567);
         var company = Company.Create(cik, companyName);
         var highestIncome = 1_000_000_000m;
-        AddAllYearsIncomeRecords(company, 
-            year2018: 800_000_000m, 
-            year2019: 850_000_000m, 
-            year2020: 900_000_000m, 
-            year2021: 950_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 800_000_000m,
+            year2019: 850_000_000m,
+            year2020: 900_000_000m,
+            year2021: 950_000_000m,
             year2022: highestIncome);
 
         // Act
@@ -245,11 +245,11 @@ public class CompanyTests
         var cik = CentralIndexKey.Create(1234567);
         var company = Company.Create(cik, companyName);
         var highestIncome = 1_000_000_000m;
-        AddAllYearsIncomeRecords(company, 
-            year2018: 800_000_000m, 
-            year2019: 850_000_000m, 
-            year2020: 900_000_000m, 
-            year2021: 950_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 800_000_000m,
+            year2019: 850_000_000m,
+            year2020: 900_000_000m,
+            year2021: 950_000_000m,
             year2022: highestIncome);
 
         // Act
@@ -266,10 +266,10 @@ public class CompanyTests
     {
         // Arrange
         var company = CreateTestCompany();
-        AddAllYearsIncomeRecords(company, 
-            year2018: 800_000_000m, 
-            year2019: 850_000_000m, 
-            year2020: 900_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 800_000_000m,
+            year2019: 850_000_000m,
+            year2020: 900_000_000m,
             year2021: 1_000_000_000m,  // Higher
             year2022: 900_000_000m);   // Lower than 2021
 
@@ -289,10 +289,10 @@ public class CompanyTests
         // Arrange
         var cik = CentralIndexKey.Create(1234567);
         var company = Company.Create(cik, "Apple Inc"); // Starts with vowel
-        AddAllYearsIncomeRecords(company, 
-            year2018: 800_000_000m, 
-            year2019: 850_000_000m, 
-            year2020: 900_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 800_000_000m,
+            year2019: 850_000_000m,
+            year2020: 900_000_000m,
             year2021: 1_000_000_000m,  // Higher
             year2022: 900_000_000m);   // Lower
 
@@ -311,11 +311,11 @@ public class CompanyTests
     {
         // Arrange
         var company = CreateTestCompany();
-        AddAllYearsIncomeRecords(company, 
-            year2018: 800_000_000m, 
-            year2019: 850_000_000m, 
-            year2020: 900_000_000m, 
-            year2021: 950_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 800_000_000m,
+            year2019: 850_000_000m,
+            year2020: 900_000_000m,
+            year2021: 950_000_000m,
             year2022: 1_000_000_000m);
         company.CalculateFundableAmounts();
 
@@ -388,11 +388,11 @@ public class CompanyTests
     {
         // Arrange
         var company = CreateTestCompany();
-        AddAllYearsIncomeRecords(company, 
-            year2018: 800_000_000m, 
-            year2019: 850_000_000m, 
-            year2020: 900_000_000m, 
-            year2021: 950_000_000m, 
+        AddAllYearsIncomeRecords(company,
+            year2018: 800_000_000m,
+            year2019: 850_000_000m,
+            year2020: 900_000_000m,
+            year2021: 950_000_000m,
             year2022: 1_000_000_000m);
         company.CalculateFundableAmounts();
         var originalSpecial = company.SpecialFundableAmount;
@@ -426,11 +426,11 @@ public class CompanyTests
     }
 
     private static void AddAllYearsIncomeRecords(
-        Company company, 
-        decimal year2018, 
-        decimal year2019, 
-        decimal year2020, 
-        decimal year2021, 
+        Company company,
+        decimal year2018,
+        decimal year2019,
+        decimal year2020,
+        decimal year2021,
         decimal year2022)
     {
         company.AddIncomeRecord(CreateIncomeRecord(company.Id, 2018, year2018));

@@ -47,7 +47,7 @@ public class CompanyRepository : Repository<Company>, ICompanyRepository
     {
         var upperLetter = char.ToUpperInvariant(letter);
         return await _dbSet
-            .Where(c => c.StandardFundableAmount != null && 
+            .Where(c => c.StandardFundableAmount != null &&
                         c.StandardFundableAmount > 0 &&
                         c.EntityName.StartsWith(upperLetter.ToString()))
             .ToListAsync(cancellationToken);

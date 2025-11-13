@@ -31,7 +31,7 @@ public class FundableAmountService : IFundableAmountService
     {
         var companies = await _companyRepository.GetEligibleForFundingAsync();
         var companiesList = companies.ToList();
-        
+
         return companiesList.Select((c, index) => new FundableAmountDto
         {
             Id = index + 1,  // Sequential ID as per requirements

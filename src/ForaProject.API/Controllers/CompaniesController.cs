@@ -53,7 +53,7 @@ public class CompaniesController : ControllerBase
     {
         _logger.LogInformation("Getting company with CIK: {Cik}", cik);
         var company = await _companyService.GetCompanyByCikAsync(cik, cancellationToken);
-        
+
         if (company == null)
         {
             return NotFound(new { message = $"Company with CIK {cik} not found." });
@@ -77,7 +77,7 @@ public class CompaniesController : ControllerBase
     {
         _logger.LogInformation("Getting company with ID: {Id}", id);
         var company = await _companyService.GetCompanyByIdAsync(id, cancellationToken);
-        
+
         if (company == null)
         {
             return NotFound(new { message = $"Company with ID {id} not found." });
@@ -103,7 +103,7 @@ public class CompaniesController : ControllerBase
     {
         _logger.LogInformation("Creating company with CIK: {Cik}", createCompanyDto.Cik);
         var company = await _companyService.CreateCompanyAsync(createCompanyDto, cancellationToken);
-        
+
         return CreatedAtAction(
             nameof(GetCompanyByCik),
             new { cik = company.Cik },
@@ -127,7 +127,7 @@ public class CompaniesController : ControllerBase
     {
         _logger.LogInformation("Importing company with CIK: {Cik}", importDto.Cik);
         var company = await _companyService.ImportCompanyAsync(importDto, cancellationToken);
-        
+
         return CreatedAtAction(
             nameof(GetCompanyByCik),
             new { cik = company.Cik },
@@ -151,7 +151,7 @@ public class CompaniesController : ControllerBase
     {
         _logger.LogInformation("Batch importing {Count} companies", batchImportDto.Ciks.Count);
         var companies = await _companyService.BatchImportCompaniesAsync(batchImportDto, cancellationToken);
-        
+
         return Ok(companies);
     }
 
@@ -170,7 +170,7 @@ public class CompaniesController : ControllerBase
     {
         _logger.LogInformation("Deleting company with ID: {Id}", id);
         await _companyService.DeleteCompanyAsync(id, cancellationToken);
-        
+
         return NoContent();
     }
 }

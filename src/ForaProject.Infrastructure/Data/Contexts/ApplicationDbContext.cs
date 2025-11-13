@@ -13,7 +13,7 @@ public class ApplicationDbContext : DbContext
     /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
     /// </summary>
     /// <param name="options">The database context options.</param>
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
@@ -76,10 +76,10 @@ public class ApplicationDbContext : DbContext
             {
                 // Reflection to call MarkAsUpdated (since it's protected)
                 var method = entity.GetType().BaseType?
-                    .GetMethod("MarkAsUpdated", 
-                        System.Reflection.BindingFlags.NonPublic | 
+                    .GetMethod("MarkAsUpdated",
+                        System.Reflection.BindingFlags.NonPublic |
                         System.Reflection.BindingFlags.Instance);
-                
+
                 method?.Invoke(entity, null);
             }
         }

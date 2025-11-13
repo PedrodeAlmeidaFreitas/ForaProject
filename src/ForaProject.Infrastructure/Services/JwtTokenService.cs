@@ -22,7 +22,7 @@ public class JwtTokenService : ITokenService
     public JwtTokenService(IConfiguration configuration)
     {
         _configuration = configuration;
-        _secretKey = configuration["Jwt:SecretKey"] 
+        _secretKey = configuration["Jwt:SecretKey"]
             ?? throw new InvalidOperationException("JWT SecretKey is not configured.");
         _issuer = configuration["Jwt:Issuer"] ?? "ForaProject.API";
         _audience = configuration["Jwt:Audience"] ?? "ForaProject.Client";

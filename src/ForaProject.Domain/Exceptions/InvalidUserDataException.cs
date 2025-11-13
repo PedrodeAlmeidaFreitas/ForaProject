@@ -18,7 +18,7 @@ public class InvalidUserDataException : DomainException
     /// </summary>
     /// <param name="message">The error message.</param>
     /// <param name="innerException">The inner exception.</param>
-    public InvalidUserDataException(string message, Exception innerException) 
+    public InvalidUserDataException(string message, Exception innerException)
         : base(message, innerException)
     {
     }
