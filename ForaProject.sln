@@ -4,11 +4,11 @@ VisualStudioVersion = 17.0.31912.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Domain", "src\ForaProject.Domain\ForaProject.Domain.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Application", "src\ForaProject.Application\ForaProject.Application.csproj", "{00000000-0000-0000-0000-000000000000}"
+Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Application", "src\ForaProject.Application\ForaProject.Application.csproj", "{E1D876C8-9608-4F1C-BD16-B450C94E0EC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Infrastructure", "src\ForaProject.Infrastructure\ForaProject.Infrastructure.csproj", "{00000000-0000-0000-0000-000000000000}"
+Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.Infrastructure", "src\ForaProject.Infrastructure\ForaProject.Infrastructure.csproj", "{B42CBA5D-EF20-42F9-8460-35574730EB71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.API", "src\ForaProject.API\ForaProject.API.csproj", "{00000000-0000-0000-0000-000000000000}"
+Project("{FAE04EC0-301F-11D3-BF4F-00C04F79EFBC}") = "ForaProject.API", "src\ForaProject.API\ForaProject.API.csproj", "{7A764F0C-3B78-4643-8B77-D0866A249A86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{13188AE9-54EC-499D-BFF1-CF79B8107FE9}"
 EndProject
@@ -30,8 +30,18 @@ Global
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00000000-0000-0000-0000-000000000000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00000000-0000-0000-0000-000000000000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1D876C8-9608-4F1C-BD16-B450C94E0EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1D876C8-9608-4F1C-BD16-B450C94E0EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1D876C8-9608-4F1C-BD16-B450C94E0EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1D876C8-9608-4F1C-BD16-B450C94E0EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B42CBA5D-EF20-42F9-8460-35574730EB71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B42CBA5D-EF20-42F9-8460-35574730EB71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B42CBA5D-EF20-42F9-8460-35574730EB71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B42CBA5D-EF20-42F9-8460-35574730EB71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A764F0C-3B78-4643-8B77-D0866A249A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A764F0C-3B78-4643-8B77-D0866A249A86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A764F0C-3B78-4643-8B77-D0866A249A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A764F0C-3B78-4643-8B77-D0866A249A86}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D49246DF-BC5C-440D-B23B-9252FA4C74CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D49246DF-BC5C-440D-B23B-9252FA4C74CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D49246DF-BC5C-440D-B23B-9252FA4C74CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
