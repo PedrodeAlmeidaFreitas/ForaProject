@@ -57,7 +57,7 @@ public class User : Entity
         // Trim inputs before validation
         username = username?.Trim() ?? string.Empty;
         email = email?.Trim() ?? string.Empty;
-        
+
         ValidateUsername(username);
         ValidateEmail(email);
         ValidatePasswordHash(passwordHash);

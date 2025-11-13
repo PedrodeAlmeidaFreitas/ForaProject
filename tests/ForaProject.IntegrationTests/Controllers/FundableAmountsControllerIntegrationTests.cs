@@ -14,7 +14,7 @@ namespace ForaProject.IntegrationTests.Controllers;
 /// </summary>
 public class FundableAmountsControllerIntegrationTests : IntegrationTestBase
 {
-    public FundableAmountsControllerIntegrationTests(CustomWebApplicationFactory factory) 
+    public FundableAmountsControllerIntegrationTests(CustomWebApplicationFactory factory)
         : base(factory)
     {
     }
@@ -172,13 +172,13 @@ public class FundableAmountsControllerIntegrationTests : IntegrationTestBase
             var company = Company.Create(
                 CentralIndexKey.Create(testCik),
                 "Test Company");
-            
+
             company.AddIncomeRecord(IncomeRecord.Create(company.Id, 2022, 120000m, "10-K", null, DateTime.UtcNow, "ACC-2022"));
             company.AddIncomeRecord(IncomeRecord.Create(company.Id, 2021, 110000m, "10-K", null, DateTime.UtcNow, "ACC-2021"));
             company.AddIncomeRecord(IncomeRecord.Create(company.Id, 2020, 100000m, "10-K", null, DateTime.UtcNow, "ACC-2020"));
             company.AddIncomeRecord(IncomeRecord.Create(company.Id, 2019, 95000m, "10-K", null, DateTime.UtcNow, "ACC-2019"));
             company.AddIncomeRecord(IncomeRecord.Create(company.Id, 2018, 90000m, "10-K", null, DateTime.UtcNow, "ACC-2018"));
-            
+
             db.Companies.Add(company);
         });
 

@@ -14,7 +14,7 @@ namespace ForaProject.IntegrationTests.Repositories;
 /// </summary>
 public class CompanyRepositoryIntegrationTests : IntegrationTestBase
 {
-    public CompanyRepositoryIntegrationTests(CustomWebApplicationFactory factory) 
+    public CompanyRepositoryIntegrationTests(CustomWebApplicationFactory factory)
         : base(factory)
     {
     }
@@ -139,7 +139,7 @@ public class CompanyRepositoryIntegrationTests : IntegrationTestBase
             (2020, 100000m),
             (2019, 95000m),
             (2018, 90000m));
-        
+
         // Company without fundable amount
         var company2 = Company.Create(CentralIndexKey.Create(4002), "Not Eligible");
         company2.AddIncomeRecord(IncomeRecord.Create(company2.Id, 2022, 10000m, "10-K", null, DateTime.UtcNow, "ACC"));
@@ -195,7 +195,7 @@ public class CompanyRepositoryIntegrationTests : IntegrationTestBase
         // Act
         await repository.AddAsync(company);
         await context.SaveChangesAsync();
-        
+
         var result = await repository.GetByIdAsync(company.Id);
 
         // Assert

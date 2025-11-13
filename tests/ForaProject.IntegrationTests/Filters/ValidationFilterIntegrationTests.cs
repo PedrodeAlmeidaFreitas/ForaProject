@@ -12,7 +12,7 @@ namespace ForaProject.IntegrationTests.Filters;
 /// </summary>
 public class ValidationFilterIntegrationTests : IntegrationTestBase
 {
-    public ValidationFilterIntegrationTests(CustomWebApplicationFactory factory) 
+    public ValidationFilterIntegrationTests(CustomWebApplicationFactory factory)
         : base(factory)
     {
     }

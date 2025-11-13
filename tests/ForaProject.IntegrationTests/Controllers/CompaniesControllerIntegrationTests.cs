@@ -11,7 +11,7 @@ namespace ForaProject.IntegrationTests.Controllers;
 /// </summary>
 public class CompaniesControllerIntegrationTests : IntegrationTestBase
 {
-    public CompaniesControllerIntegrationTests(CustomWebApplicationFactory factory) 
+    public CompaniesControllerIntegrationTests(CustomWebApplicationFactory factory)
         : base(factory)
     {
     }
@@ -63,7 +63,7 @@ public class CompaniesControllerIntegrationTests : IntegrationTestBase
         const int testCik = 1234567;
         await SeedDatabaseAsync(db =>
         {
-            db.Companies.Add(CreateTestCompany(testCik, "Test Company", 
+            db.Companies.Add(CreateTestCompany(testCik, "Test Company",
                 (2023, 100000m),
                 (2022, 120000m),
                 (2021, 130000m)));
@@ -152,7 +152,7 @@ public class CompaniesControllerIntegrationTests : IntegrationTestBase
         company.Should().NotBeNull();
         company!.Cik.Should().Be(createDto.Cik);
         company.EntityName.Should().Be(createDto.EntityName);
-        
+
         // Verify location header (case-insensitive)
         response.Headers.Location.Should().NotBeNull();
         response.Headers.Location!.ToString().ToLower().Should().Contain($"/api/v1/companies/cik/{company.Cik}");
@@ -259,7 +259,7 @@ public class CompaniesControllerIntegrationTests : IntegrationTestBase
             Cik = duplicateCik,
             EntityName = "First Company"
         };
-        
+
         // Create first company
         await Client.PostAsJsonAsync("/api/v1/companies", firstDto);
 

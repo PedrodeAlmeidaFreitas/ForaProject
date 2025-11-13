@@ -18,7 +18,7 @@ public sealed class InvalidCompanyDataException : DomainException
     /// </summary>
     /// <param name="message">The error message.</param>
     /// <param name="innerException">The inner exception.</param>
-    public InvalidCompanyDataException(string message, Exception innerException) 
+    public InvalidCompanyDataException(string message, Exception innerException)
         : base(message, innerException)
     {
     }

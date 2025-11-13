@@ -20,10 +20,10 @@ public class EdgarApiService : IEdgarApiService
         _httpClient = httpClient;
         _logger = logger;
         _httpClient.BaseAddress = new Uri("https://data.sec.gov/");
-        
+
         // SEC EDGAR API requires User-Agent header as specified in challenge requirements
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "PostmanRuntime/7.34.0");
-        
+
         _jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -37,21 +37,21 @@ public class EdgarApiService : IEdgarApiService
         {
             // Format CIK with leading zeros (SEC EDGAR uses 10-digit CIKs)
             var formattedCik = cik.ToString("D10");
-            
+
             // Fetch company submissions (contains company info)
             var submissionsUrl = $"submissions/CIK{formattedCik}.json";
-            
+
             _logger.LogInformation("Fetching SEC data from: {Url}", $"{_httpClient.BaseAddress}{submissionsUrl}");
-            
+
             var submissionsResponse = await _httpClient.GetAsync(submissionsUrl, cancellationToken);
-            
-            _logger.LogInformation("SEC API Response: StatusCode={StatusCode}, ReasonPhrase={ReasonPhrase}", 
+
+            _logger.LogInformation("SEC API Response: StatusCode={StatusCode}, ReasonPhrase={ReasonPhrase}",
                 submissionsResponse.StatusCode, submissionsResponse.ReasonPhrase);
-            
+
             if (!submissionsResponse.IsSuccessStatusCode)
             {
                 var responseBody = await submissionsResponse.Content.ReadAsStringAsync(cancellationToken);
-                _logger.LogWarning("SEC API returned non-success status for CIK {Cik}. Status: {StatusCode}, Body: {Body}", 
+                _logger.LogWarning("SEC API returned non-success status for CIK {Cik}. Status: {StatusCode}, Body: {Body}",
                     cik, submissionsResponse.StatusCode, responseBody.Length > 500 ? responseBody[..500] : responseBody);
                 return null;
             }
@@ -71,32 +71,32 @@ public class EdgarApiService : IEdgarApiService
 
             // Fetch company facts (contains financial data)
             var factsUrl = $"api/xbrl/companyfacts/CIK{formattedCik}.json";
-            
+
             _logger.LogInformation("Fetching company facts from: {Url}", $"{_httpClient.BaseAddress}{factsUrl}");
-            
+
             var factsResponse = await _httpClient.GetAsync(factsUrl, cancellationToken);
-            
-            _logger.LogInformation("Company Facts Response: StatusCode={StatusCode}, ReasonPhrase={ReasonPhrase}", 
+
+            _logger.LogInformation("Company Facts Response: StatusCode={StatusCode}, ReasonPhrase={ReasonPhrase}",
                 factsResponse.StatusCode, factsResponse.ReasonPhrase);
-            
+
             if (factsResponse.IsSuccessStatusCode)
             {
                 try
                 {
                     var factsData = await factsResponse.Content.ReadFromJsonAsync<EdgarCompanyFactsResponse>(_jsonOptions, cancellationToken);
-                    
-                    _logger.LogInformation("Facts data parsed. UsGaap={HasUsGaap}, NetIncomeLoss={HasNetIncomeLoss}", 
-                        factsData?.Facts?.UsGaap != null, 
+
+                    _logger.LogInformation("Facts data parsed. UsGaap={HasUsGaap}, NetIncomeLoss={HasNetIncomeLoss}",
+                        factsData?.Facts?.UsGaap != null,
                         factsData?.Facts?.UsGaap?.NetIncomeLoss != null);
-                    
+
                     // Collect NetIncomeLoss data
                     if (factsData?.Facts?.UsGaap?.NetIncomeLoss?.Units?.Usd != null)
                     {
                         var incomeData = factsData.Facts.UsGaap.NetIncomeLoss.Units.Usd;
-                        
-                        _logger.LogInformation("Found {Count} NetIncomeLoss records for CIK {Cik}", 
+
+                        _logger.LogInformation("Found {Count} NetIncomeLoss records for CIK {Cik}",
                             incomeData?.Count ?? 0, cik);
-                        
+
                         // Extract income data for years 2018-2022, 10-K filings only
                         // Filter out records with null fiscal year
                         var filteredIncomeData = incomeData!
@@ -105,9 +105,9 @@ public class EdgarApiService : IEdgarApiService
                             .Select(g => g.OrderByDescending(r => r.Filed).First())
                             .ToList();
 
-                        _logger.LogInformation("Filtered to {Count} income records (2018-2022, 10-K only) for CIK {Cik}", 
+                        _logger.LogInformation("Filtered to {Count} income records (2018-2022, 10-K only) for CIK {Cik}",
                             filteredIncomeData.Count, cik);
-                        
+
                         foreach (var income in filteredIncomeData)
                         {
                             companyData.IncomeRecords.Add(new Application.Interfaces.EdgarIncomeData
@@ -133,7 +133,7 @@ public class EdgarApiService : IEdgarApiService
             }
             else
             {
-                _logger.LogWarning("Company facts request failed for CIK {Cik}: {StatusCode}", 
+                _logger.LogWarning("Company facts request failed for CIK {Cik}: {StatusCode}",
                     cik, factsResponse.StatusCode);
             }
 

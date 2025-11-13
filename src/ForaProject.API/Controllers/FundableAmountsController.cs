@@ -116,7 +116,7 @@ public class FundableAmountsController : ControllerBase
     {
         _logger.LogInformation("Calculating fundable amounts for all companies");
         var count = await _fundableAmountService.CalculateAllFundableAmountsAsync(cancellationToken);
-        
+
         return Ok(new
         {
             message = "Fundable amounts calculated successfully",

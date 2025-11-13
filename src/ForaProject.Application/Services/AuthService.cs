@@ -35,7 +35,7 @@ public class AuthService : IAuthService
     {
         // Find user by email
         var user = await _userRepository.GetByEmailAsync(loginDto.Email.ToLowerInvariant());
-        
+
         if (user == null)
         {
             throw new UnauthorizedAccessException("Invalid email or password.");
@@ -115,7 +115,7 @@ public class AuthService : IAuthService
     public async Task<UserDto> GetUserByIdAsync(Guid userId)
     {
         var user = await _userRepository.GetByIdAsync(userId);
-        
+
         if (user == null)
         {
             throw new InvalidOperationException("User not found.");
@@ -127,7 +127,7 @@ public class AuthService : IAuthService
     public async Task ChangePasswordAsync(Guid userId, string currentPassword, string newPassword)
     {
         var user = await _userRepository.GetByIdAsync(userId);
-        
+
         if (user == null)
         {
             throw new InvalidOperationException("User not found.");

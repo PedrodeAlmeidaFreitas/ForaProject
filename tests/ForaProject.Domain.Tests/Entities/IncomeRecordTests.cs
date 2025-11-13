@@ -58,12 +58,12 @@ public class IncomeRecordTests
 
         // Act
         Action act = () => IncomeRecord.Create(
-            companyId, 
-            invalidYear, 
-            1_000_000m, 
-            "10-K", 
-            null, 
-            DateTime.UtcNow, 
+            companyId,
+            invalidYear,
+            1_000_000m,
+            "10-K",
+            null,
+            DateTime.UtcNow,
             "0001234567-22-000001");
 
         // Assert
@@ -82,12 +82,12 @@ public class IncomeRecordTests
 
         // Act
         Action act = () => IncomeRecord.Create(
-            companyId, 
-            2022, 
-            1_000_000m, 
-            invalidForm!, 
-            null, 
-            DateTime.UtcNow, 
+            companyId,
+            2022,
+            1_000_000m,
+            invalidForm!,
+            null,
+            DateTime.UtcNow,
             "0001234567-22-000001");
 
         // Assert
@@ -105,12 +105,12 @@ public class IncomeRecordTests
 
         // Act
         Action act = () => IncomeRecord.Create(
-            companyId, 
-            2022, 
-            1_000_000m, 
-            "10-K", 
-            null, 
-            DateTime.UtcNow, 
+            companyId,
+            2022,
+            1_000_000m,
+            "10-K",
+            null,
+            DateTime.UtcNow,
             invalidAccessionNumber!);
 
         // Assert

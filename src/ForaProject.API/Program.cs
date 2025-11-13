@@ -49,7 +49,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCompanyDtoValidator>();
 
 // Add JWT Authentication
-var jwtSecretKey = builder.Configuration["Jwt:SecretKey"] 
+var jwtSecretKey = builder.Configuration["Jwt:SecretKey"]
     ?? throw new InvalidOperationException("JWT SecretKey must be configured.");
 
 builder.Services.AddAuthentication(options =>

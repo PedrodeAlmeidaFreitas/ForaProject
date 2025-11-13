@@ -85,7 +85,7 @@ public sealed class Company : Entity
             throw new InvalidCompanyDataException("Income record belongs to a different company.");
 
         // Avoid duplicates based on year and form
-        var existing = _incomeRecords.FirstOrDefault(ir => 
+        var existing = _incomeRecords.FirstOrDefault(ir =>
             ir.Year == incomeRecord.Year && ir.Form == incomeRecord.Form);
 
         if (existing != null)
@@ -173,7 +173,7 @@ public sealed class Company : Entity
     /// <returns>True if eligible; otherwise, false.</returns>
     public bool IsEligibleForFunding()
     {
-        return StandardFundableAmount.HasValue && 
+        return StandardFundableAmount.HasValue &&
                StandardFundableAmount.Value > 0;
     }
 

@@ -48,7 +48,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             cik.Property(v => v.Value)
                 .HasColumnName("Cik")
                 .IsRequired();
-            
+
             // Index on CIK for fast lookups
             cik.HasIndex(v => v.Value)
                 .IsUnique()
@@ -60,7 +60,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             .WithOne()
             .HasForeignKey(ir => ir.CompanyId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.Navigation("IncomeRecords")
             .HasField("_incomeRecords")
             .UsePropertyAccessMode(PropertyAccessMode.Field);

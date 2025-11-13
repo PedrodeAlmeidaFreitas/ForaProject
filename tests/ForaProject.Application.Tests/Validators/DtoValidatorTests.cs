@@ -63,10 +63,10 @@ public class CreateCompanyDtoValidatorTests
     public void Validate_WithValidData_ShouldNotHaveValidationErrors()
     {
         // Arrange
-        var dto = new CreateCompanyDto 
-        { 
-            Cik = 1234567, 
-            EntityName = "Test Company Inc." 
+        var dto = new CreateCompanyDto
+        {
+            Cik = 1234567,
+            EntityName = "Test Company Inc."
         };
 
         // Act
@@ -82,10 +82,10 @@ public class CreateCompanyDtoValidatorTests
     public void Validate_WithInvalidCik_ShouldHaveValidationError(int invalidCik)
     {
         // Arrange
-        var dto = new CreateCompanyDto 
-        { 
-            Cik = invalidCik, 
-            EntityName = "Test Company" 
+        var dto = new CreateCompanyDto
+        {
+            Cik = invalidCik,
+            EntityName = "Test Company"
         };
 
         // Act
@@ -102,10 +102,10 @@ public class CreateCompanyDtoValidatorTests
     public void Validate_WithInvalidEntityName_ShouldHaveValidationError(string? invalidName)
     {
         // Arrange
-        var dto = new CreateCompanyDto 
-        { 
-            Cik = 1234567, 
-            EntityName = invalidName! 
+        var dto = new CreateCompanyDto
+        {
+            Cik = 1234567,
+            EntityName = invalidName!
         };
 
         // Act
@@ -132,9 +132,9 @@ public class BatchImportDtoValidatorTests
     public void Validate_WithValidCiks_ShouldNotHaveValidationErrors()
     {
         // Arrange
-        var dto = new BatchImportDto 
-        { 
-            Ciks = new List<int> { 1234567, 7654321, 1111111 } 
+        var dto = new BatchImportDto
+        {
+            Ciks = new List<int> { 1234567, 7654321, 1111111 }
         };
 
         // Act
@@ -174,9 +174,9 @@ public class BatchImportDtoValidatorTests
     public void Validate_WithInvalidCikInList_ShouldHaveValidationError()
     {
         // Arrange
-        var dto = new BatchImportDto 
-        { 
-            Ciks = new List<int> { 1234567, -1, 7654321 } 
+        var dto = new BatchImportDto
+        {
+            Ciks = new List<int> { 1234567, -1, 7654321 }
         };
 
         // Act
