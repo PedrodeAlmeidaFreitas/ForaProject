@@ -72,25 +72,26 @@ jobs:
       run: |
         dotnet test ForaProject.sln \
           --configuration Release \
-          --no-build \
           --verbosity normal \
           --collect:"XPlat Code Coverage" \
           --results-directory ./TestResults \
           --settings coverlet.runsettings
 
-    - name: � List Coverage Files (Debug)
+    - name: 🔍 List Coverage Files (Debug)
       if: always()
       run: |
         echo "Looking for coverage files..."
         find ./TestResults -name "coverage.cobertura.xml" -type f || echo "No coverage files found"
+        find ./TestResults -name "*.xml" -type f || echo "No XML files found"
         echo "All files in TestResults:"
         ls -R ./TestResults || echo "TestResults directory not found"
 
-    - name: �📈 Generate Coverage Report
+    - name:  Generate Coverage Report
       if: always()
+      continue-on-error: true
       uses: danielpalme/ReportGenerator-GitHub-Action@5.3.11
       with:
-        reports: '**/coverage.cobertura.xml'
+        reports: 'TestResults/**/coverage.cobertura.xml'
         targetdir: 'TestResults/CoverageReport'
         reporttypes: 'HtmlInline;Cobertura;MarkdownSummaryGithub'
         sourcedirs: 'src'
