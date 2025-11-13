@@ -396,6 +396,15 @@ Use the appropriate issue template:
 - Write clear commit messages and PR descriptions
 - Keep PRs focused and reasonably sized
 
-## 📄 License
+## � Additional Documentation
+
+- **[Workflow Status Guide](WORKFLOW_STATUS.md)** - Understand GitHub Actions workflows and expected behavior
+- **[Workflow Fixes](WORKFLOW_FIXES.md)** - Quick fixes for common CI/CD failures
+- **[Quickstart Guide](QUICKSTART.md)** - Get started quickly with development
+- **[CIK Import Guide](CIK_IMPORT_GUIDE.md)** - Import company data from SEC EDGAR
+- **[Coverage Report](COVERAGE.md)** - Code coverage metrics and goals
+- **[Changelog](CHANGELOG.md)** - Version history and changes
+
+## �📄 License
 
 MIT License
